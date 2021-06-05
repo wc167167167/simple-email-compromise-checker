@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html"
 	"net/http"
 	"time"
 
@@ -19,7 +20,8 @@ func main() {
 func checkCompromise(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		email := r.URL.Query().Get("email")
+
+		email := html.EscapeString(r.URL.Query().Get("email"))
 
 		result, _ := expireMap.Get(email)
 
@@ -33,6 +35,8 @@ func checkCompromise(w http.ResponseWriter, r *http.Request) {
 			exist = email != "" && IsExist(email)
 			expireMap.Set(email, exist, time.Duration(30)*time.Second)
 		}
+
+		w.Header().Set("Content-Type", "text/plain")
 
 		if exist {
 			w.WriteHeader(http.StatusOK)
