@@ -6,4 +6,4 @@ COPY ./src .
 RUN ls
 RUN go build -o /app/ .
 
-CMD ["/app/testGo"]
+ENTRYPOINT [ "/app/testGo" ]

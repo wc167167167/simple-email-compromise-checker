@@ -13,6 +13,7 @@ var expireMap = expiremap.New()
 
 func main() {
 	Init()
+
 	http.HandleFunc("/check", checkCompromise)
 	http.ListenAndServe(":8989", nil)
 }
